@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mrym College · 食堂大数据分析与智能决策平台</title>
+  <link rel="icon" href="assets/logo.jpg">
+  <link rel="stylesheet" href="css/app.css">
+  <script src="js/echarts.min.js"></script>
+</head>
+<body>
+
+  <!-- ==================== 登录 / 注册 ==================== -->
+  <div id="view-login" class="login-wrap">
+    <video class="login-bg" autoplay muted loop playsinline webkit-playsinline x5-playsinline disablepictureinpicture preload="auto" poster="assets/login-bg-poster.jpg" src="assets/login-bg.mp4"></video>
+    <script src="js/login-boot.js"></script>
+    <div class="login-shade"></div>
+
+    <header class="login-top">
+      <div class="lt-brand">
+        <img src="assets/logo.jpg" alt="Mrym College 校徽">
+        <span>Mrym College</span>
+      </div>
+    </header>
+
+    <div class="login-hero">
+      <p class="hero-kicker">食堂数据化运营中心</p>
+      <h1>食堂大数据分析<br>与智能决策平台</h1>
+      <p class="hero-sub">让每一餐都有数据护航 · 让每一个决策都有 AI 支撑</p>
+      <div class="hero-chips">
+        <span>📊 全校 4 食堂 9 档口经营数据实时看板</span>
+        <span>🤖 内置 AI 营养师与智能决策顾问</span>
+        <span>✨ 口味 × 历史 × 热销 × 评分 四维智能推荐</span>
+        <span>📍 校园定位 · 人流热力 · 就餐引导</span>
+      </div>
+    </div>
+
+    <div class="login-right" id="login-card">
+      <div class="login-card">
+        <div class="login-tabs">
+          <button class="ltab active" data-tab="login">登 录</button>
+          <button class="ltab" data-tab="register">学生注册</button>
+        </div>
+
+        <form id="form-login" class="lform">
+          <label>用户类型</label>
+          <div class="seg" id="role-seg">
+            <button type="button" class="seg-btn active" data-role="student">学生</button>
+            <button type="button" class="seg-btn" data-role="teacher">教师</button>
+            <button type="button" class="seg-btn" data-role="staff">食堂员工</button>
+            <button type="button" class="seg-btn" data-role="admin">管理员</button>
+          </div>
+          <label>账号</label>
+          <input type="text" id="login-id" placeholder="学号 / 工号 / 管理员账号" autocomplete="username">
+          <label>密码</label>
+          <input type="password" id="login-pw" placeholder="请输入密码" autocomplete="current-password">
+          <button type="submit" class="btn-primary btn-block">进入平台</button>
+          <!-- 测试账号区块：默认收起，信息保留。带 ?demo=1 打开，或连点左上角校名 5 次 -->
+          <div class="demo-accounts" id="demo-accounts" hidden>
+            <b>测试账号</b><br>
+            学生：student<br>
+            教师：teacher<br>
+            员工：staff（对应 1 号食堂）<br>
+            <i style="opacity:.8">演示口令不在页面与代码中出现，由教师课堂现场发放</i>
+          </div>
+          <p class="privacy-note">为保障账户安全与优化服务，本平台会记录访问设备的型号、系统、浏览器与网络信息（不读取相册、通讯录、短信）；位置信息仅在你主动点击定位并授权后采集。设备特征（GPU / 画布 / 音频）仅在你点击「同意」后采集，拒绝不影响使用。</p>
+          <a class="dl-btn" href="mrym.apk" download="mrym-canteen.apk">
+            <span class="dl-ico">🤖</span>
+            <span class="dl-txt"><b>下载安卓 App</b><i>Mrym 食堂 v1.3 · 官方签名 · 支持头像上传</i></span>
+          </a>
+        </form>
+
+        <form id="form-register" class="lform hidden">
+          <label>学号</label>
+          <input type="text" id="reg-id" placeholder="请输入学号，如 s202">
+          <label>姓名</label>
+          <input type="text" id="reg-name" placeholder="请输入姓名">
+          <label>密码</label>
+          <input type="password" id="reg-pw" placeholder="设置密码（至少 6 位）" autocomplete="new-password">
+          <label>口味偏好（可多选）</label>
+          <div class="chip-row" id="reg-tastes"></div>
+          <label>忌口食材（可多选）</label>
+          <div class="chip-row" id="reg-allergens"></div>
+          <button type="submit" class="btn-primary btn-block">注册并登录</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 主应用 ==================== -->
+  <div id="view-app" class="app hidden">
+    <aside class="sidebar">
+      <div class="side-brand">
+        <img src="assets/logo.jpg" alt="校徽" class="side-logo">
+        <div>
+          <div class="side-school">Mrym College</div>
+          <div class="side-title">食堂数据平台</div>
+        </div>
+      </div>
+      <nav id="side-menu" class="side-menu"></nav>
+      <div class="side-foot">
+        <div id="side-user" class="side-user"></div>
+        <button id="btn-logout" class="btn-ghost btn-block">退出登录</button>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <h2 id="page-title">首页</h2>
+        <div class="topbar-right" id="topbar-right"></div>
+      </header>
+      <div id="page-body" class="page-body"></div>
+    </main>
+    <nav id="bottom-nav" class="bottom-nav" aria-label="底部导航"></nav>
+  </div>
+
+  <!-- 弹窗 -->
+  <div id="modal-mask" class="modal-mask hidden">
+    <div class="modal" id="modal-box"></div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/track.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
